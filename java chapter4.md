@@ -47,10 +47,220 @@
   **状态--> 一个类的属性**
   **动作--> 一个类的方法**
      
-     类{
+     <pre>类{
         属性；//描述对象的状态信息
         方法；//描述对象的动作信息
-    }
+    }</pre>
     
     **状态和动作当具体到某个对象上之后，发现最终的结果可能不一样**
+    **对象和对象之间有共同特征，但是具体到对象之后有数据的差异**
 - 类的定义
+  * 语法结构 
+<pre>
+  [修饰符列表] class 类名{
+    属性；
+    方法；
+  }
+</pre>
+  * 例如
+    * 学生类，描述所有学生对象的共同特征
+    * 学生对象有哪些状态信息：
+      * 学号[int]
+      * 名字[String]
+      * 性别[boolean]
+      * 年龄[int]
+      * 住址[String]
+      ...
+    * 学生对象有哪些动作信息：
+      * 吃饭
+      * 睡觉
+      * 学习
+      * 娱乐
+      * 唱歌
+      * 跳舞
+      ...
+- java语言中包括两种数据类型：
+  - 基本数据类型
+    - byte
+    - short
+    - int
+    - long
+    - float
+    - double
+    - boolean
+    - char  
+  - 引用数据类型
+    - String.class SUN提供的
+    - System.class SUN提供的
+    - Student.class 程序员自定义的
+    - User.class 程序员自定义
+    - Product.class 程序员自定义的
+    - Customer.class 程序员自定义的
+    ...
+- java语言中所有的class都属于引用数据类型。
+<pre>
+//定义一个类，类名Student
+//Student是一个类，代表了所有的学生对象。是一个学生模板
+pubilc class Student{ //定义一个公开的类，起名Student
+
+  //属性[描述的是对象的状态信息]
+  //属性通常采用变量的方式来定义
+  //在类体当中，方法体之外定义的变量被称为“成员变量”
+  //成员变量没有赋值，系统赋默认值：一切向0看齐。
+
+  //类体=属性＋方法
+
+  //属性[存储数据采用变量的形式]
+  //由于变量定义在类体当中，方法体之外，这种变量称为成员变量
+  //所有学生都有学号信息，但是每一个学生的学号都是不同的
+  //所以要访问这个学号必须先创建对象，通过对象去访问学号信息
+  //学号信息不能直接通过“类”去访问，所以这种成员变量又被叫做：实例变量
+  //对象又被称为实例，实例变量又被称为对象变量。[对象级别的变量]
+  //不创建对象，这个no变量的内存空间是不存在的，只有创建了对象，这个no变量内存空间才会创建。
+
+  //学号
+  int no;
+
+  //姓名
+  String name;
+
+  //性别
+  boolean sex;
+
+  //年龄
+  int age;
+
+  //住址
+  String address;
+
+  //方法
+  //方法描述的是对象的动作信息
+  //当前例子就只描述属性了，不描述方法
+}
+</pre>
+## 对象的创建和使用
+<pre>
+pubilc class OOTses01{
+  pubilc static void main(String[] args){
+    
+    //int是基本数据类型
+    //i是一个变量名
+    //10是一个int类型的字面值
+    int i = 10;
+
+    //通过一个类可以实例化N个对象
+    //实例化对象的语法：new 类名();
+    //new是java语言当中的一个运算符
+    //new运算符的作用是创建对象，在JVM堆内存当中开辟新的内存空间
+    //方法区内存：在类加载的时候，class字节码代码片段被加载到该内存空间当中。
+    //栈内存(局部变量)：方法代码片段执行的时候，会给该方法分配内存空间，在栈内存中压栈。
+    //堆内存：new的对象在堆内存中存储
+    //Student是一个引用数据类型
+    //s是一个变量名
+    //new Student()是一个学生对象
+    //s是一个局部变量[在栈内存中存储]
+    //什么是对象？new运算符在堆内存中开辟的内存空间称为对象。
+    //什么是引用？引用是一个变量，只不过这个变量中保存了另一个java对象的内存地址。
+    //java语言当中，程序员不能直接操作堆内存，java中没有指针。不像C语言
+    //java语言当中，程序员只能通过“引用”去访问堆内存当中对象内部的实例变量。
+    //s保存内存地址指向堆内存的Student对象
+    Student s = new Student();
+
+    //访问实例变量的语法格式
+    //  读取数据：引用.变量名
+    //  修改数据：引用.变量名 = 值
+
+  }
+}
+</pre>
+- 成员变量没有手动赋值的话，系统赋默认值
+<pre>
+数据类型                     默认值
+----------------------------------
+byte,short,int,long          0
+float,double                 0.0
+boolean                      false
+char                         \u0000
+引用数据类型                   null 与void不同，void是返回值类型为空类型
+</pre>
+- 对于System.out.println(Student.no);这行代码
+  - 编译报错，no这个实例变量不能直接采用“类名”的方式访问
+  - 因为no是实例变量，对象级别的变量，变量存储在java对象的内部，必须先有对象
+  - 通过对象才能访问no这个实例变量，不能直接通过“类名”访问
+- 局部变量在栈内存中存储
+- 成员变量中的实例变量在堆内存的java对象内部
+<pre>
+//用户类
+public class User{
+  //属性[以下都是成员变量之实例变量]
+
+  //用户编号
+  //int是一种基本数据类型：整数型
+  //no是一个实例变量
+  int no;
+
+  //用户名
+  //String是一种引用数据类型：代表字符串
+  //name是一个实例变量
+  //name是一个引用
+  String name;
+
+  //家庭住址
+  //Address是一种引用数据类型：代表家庭住址
+  //addr是一个实例变量
+  //addr是一个引用
+  Address addr;
+}
+
+//家庭住址类
+public class Address{
+  //属性[成员变量之实例变量]
+  //城市
+  //String是一种引用数据类型，city是一个变量名，属于实例变量
+  //city是一个引用：保存内存地址的一个变量，该变量保存内存地址指向了堆内存当中的对象。
+  String city;
+
+  //街道
+  String street;
+
+  //邮编
+  String zipcode;
+}
+</pre>
+
+<pre>
+//妻子类
+public class Wife{
+  //姓名
+  String name;
+
+  //妻子对象当中含有丈夫引用
+  Husband h;
+}
+public class Husband{
+  //姓名
+  String name;
+
+  //丈夫对象当中含有妻子引用
+  Wife w;  
+}
+public class OOTest04{
+  public static void main(String[] args){
+
+    //创建一个丈夫对象
+    Husband xiaozhi = new Husband();
+    xiaozhi.name = "小智";
+
+    //创建一个妻子对象
+    Wife xiaoguang = new Wife();
+    xiaoguang.name = "小光";
+
+    //结婚[能通过丈夫找到妻子，通过妻子也可以找到丈夫]
+    xiaozhi.w = xiaoguang;
+    xiaoguang.h = xiaozhi;
+
+    //得到以上“小智”的妻子的名字
+    System.out.println(xiaozhi.name + "的妻子名字叫：" + xiaozhi.w.name);
+  }
+}
+</pre>

@@ -1,13 +1,22 @@
 public class F{
     public static void main(String[] args){
-        System.out.println(mulitiply(3));
-    }
-    public static int mulitiply(int i){
-        if (i > 1) {
-            return i * mulitiply(i-1);
-        }else{
-            return 1;
-        }
+        Student s = new Student();
+        System.out.println("学号 = " + s.no);
+        System.out.println("姓名 = " + s.name);
+        System.out.println("年龄 = " + s.age);
+        System.out.println("性别 = " + s.sex);
+        System.out.println("住址 = " + s.address);
+
+        s.no = 1;
+        s.name = "张三";
+        s.age = 20;
+        s.sex = true;
+        s.address = "北京市海淀区";
+        System.out.println("学号 = " + s.no);
+        System.out.println("姓名 = " + s.name);
+        System.out.println("年龄 = " + s.age);
+        System.out.println("性别 = " + s.sex);
+        System.out.println("住址 = " + s.address);
     }
 
 }
