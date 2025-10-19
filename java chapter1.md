@@ -14,6 +14,8 @@
   - [研究"java HelloWorld"的执行过程以及原理。](#研究java-helloworld的执行过程以及原理)
   - [关于java源程序当中的注释：](#关于java源程序当中的注释)
   - [public class 和 class的区别：](#public-class-和-class的区别)
+  - [关于java的集成开发环境\[集成开发环境简称：IDE\]](#关于java的集成开发环境集成开发环境简称ide)
+  - [讲解myeclipse的使用：](#讲解myeclipse的使用)
   - [总结第一章需要掌握的内容：](#总结第一章需要掌握的内容)
 
 ]
@@ -273,6 +275,35 @@
 
   - 每一个class当中都可以编写main方法，都可以设定程序的入口，想执行B.class中的main方法：java B，想执行X.class当中的main方法：java X
   - 注意：当在命令窗口中执行java Hello，那么要求Hello.class当中必须有主方法。没有主方法会出现运行阶段的错误
+## 关于java的集成开发环境[集成开发环境简称：IDE]
+- 什么是集成开发环境
+  - 集成开发环境讲究一站式开发，使用这个工具即可。有提示功能，有自动纠错功能。
+  - 集成开发环境可以让软件开发变的更简单、更高效。
+  - 没有IDE工具
+    - 需要安装JDK、需要配置环境变量、需要手动的将java源文件编译生成class字节码文件。
+    - java源程序出错之后还没有提示。
+    - 没有自动提示功能等。
+  - 有IDE工具：
+    - 不需要独立安装JDK[IDE中已经集成]
+    - 不需要手动配置环境变量
+    - 不需要使用javac命令对java源文件进行编译
+    - 并且java源程序编写语法错误马上又提示
+    - 使用IDE工具有很多代码不需要写自动生成了。
+- java有哪些比较牛的IDE呢？
+  - Intellij IDEA
+  - eclipse(myeclipse)
+  - NetBeans
+  - JBuilder  
+## 讲解myeclipse的使用：
+1. workspace：工作区
+- 当myeclipse打开的时候，大多数都是会提示选择工作区
+- 这个工作区可以是已存在的工作区，也可以是新建的工作区
+- 选择工作区之后，将来编写的java代码，自动编译的class文件都会在工作区中找到
+- myeclipse可以开启两个甚至更多的会话，每一个会话对应不同的workspace
+2. 在workspace工作区当中有一个文件夹：.metadata
+- 在该文件夹当中存储了当前myelipse的工作状态
+- 将.metadata文件夹删除之后，下一次再次进入这个工作区的时候，是一个全新的开始。但是会发现这个IDE工具当中所有的项目丢失了，没关系，这里只是丢失的myeclipse的项目，硬盘上真实存储的项目不会丢失。
+- 
 
 ## 总结第一章需要掌握的内容：
 - 理解java的加载与执行
