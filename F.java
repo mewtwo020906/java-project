@@ -1,5 +1,9 @@
 public class F{
     public static void main(String[] args){
+        new User();
+        new User("小明");
+        new User(20);
+        new User("小红",18);
         Student stu = new Student();
         Computer com = new Computer();
         stu.com = com;
