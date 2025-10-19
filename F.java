@@ -1,22 +1,31 @@
 public class F{
     public static void main(String[] args){
-        Student s = new Student();
-        System.out.println("学号 = " + s.no);
-        System.out.println("姓名 = " + s.name);
-        System.out.println("年龄 = " + s.age);
-        System.out.println("性别 = " + s.sex);
-        System.out.println("住址 = " + s.address);
-
-        s.no = 1;
-        s.name = "张三";
-        s.age = 20;
-        s.sex = true;
-        s.address = "北京市海淀区";
-        System.out.println("学号 = " + s.no);
-        System.out.println("姓名 = " + s.name);
-        System.out.println("年龄 = " + s.age);
-        System.out.println("性别 = " + s.sex);
-        System.out.println("住址 = " + s.address);
-    }
-
+        Student stu = new Student();
+        Computer com = new Computer();
+        stu.com = com;
+        stu.no = 100;
+        stu.name = "小智";
+        com.brand = "联想";
+        com.number = "拯救者";
+        com.color = "黑色";
+        System.out.println("该学生的学号是:" + stu.no);
+        System.out.println("该学生使用的笔记本是:" + stu.com.brand + "," + stu.com.number + "," + stu.com.color);
+    } 
+}
+class Computer{
+    //品牌
+    String brand;
+    //型号
+    String number;
+    //颜色
+    String color;
+}
+class Student{
+    //学号
+    int no;
+    //姓名
+    String name;
+    //学生有一台笔记本电脑
+    Computer com;
+    
 }
