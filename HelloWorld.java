@@ -1,11 +1,11 @@
-//pubilc表示公开的
+//public表示公开的
 //class表示定义一个类
 //HelloWorld表示一个类名
 public class HelloWorld{ //表示定义一个公开的类，起名HelloWorld
     //类体中不允许直接编写java语句[除声明变量之外]
     
     /*
-        pubilc表示公开的
+        public表示公开的
         static表示静态的
         void表示空
         main表示方法名是main
