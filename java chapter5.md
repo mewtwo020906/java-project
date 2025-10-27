@@ -87,23 +87,149 @@
 7. 接口中的抽象方法的public abstract修饰符可以省略。
 8. 接口中常量的public static final可以省略。 
 9. 接口中的方法都是抽象方法，抽象方法不能有方法体。
+10. 一个非抽象的类，实现接口的时候，必须将接口中所有的抽象方法全部实现(覆盖、重写)。
+11. 一个类可以实现多个接口。
+    - 接口和接口之间支持多继承，一个类可以同时实现多个接口。而java中类和类只支持单继承。实际上单继承是为了简单而出现的，现实世界中存在多继承，java中的接口弥补了单继承带来的缺陷。
+<pre>
+    interface X{    
+    }
+    interface Y{
+    }
+    class Z implements X{
+    }
+
+    X x = new Z();
+    Y y = (Y)x;
+    // 经过测试：接口和接口之间在进行强制类型转换的时候，没有继承关系，也可以强转。
+    // 但一定要注意，运行时可能会出现ClassCastException异常。
+</pre>
+**无论向上转型还是向下转型，两种类型之间必须要有继承关系，没有继承关系编译器会报错。(这句话不适用在接口方面。)最终实际上和之前还是一样，需要加：instanceof运算符进行判断。向下转型养成好习惯。转型之前先if+instanceof进行判断。**
+
+12. extends和implements可以共存，extends在前，implements在后。
+    - 类和类之间叫做继承，类和接口之间叫做实现。
+    - 继承使用extends关键字完成。实现使用implements关键字完成
+13. 使用接口，写代码的时候，可以使用多态(父类型引用指向子类型对象)
+<pre>
+    //动物类：父类
+    class Animal(){        
+    }
+
+    // 可飞翔的接口(是一对翅膀)
+    // 能插拔的就是接口。(没有接口你怎么插拔)
+    // 内存条插到主板上，他们之间有接口，内存条可以更换。
+    // 接口通常提取的是行为动作。
+    interface Flyable{
+        void fly();
+    }
+
+    // 动物类子类：猫类
+    // Flyable是一个接口，是一对翅膀的接口，通过接口插到猫身上，让猫变的可以飞翔。
+    class Cat extends Animal implements Flyable{
+        public void fly(){
+            System.out.println("Cat is flying");
+        }
+    }
+</pre>
 
 #### 接口在开发中的作用
-1. 类和类之间叫做继承，类和接口之间叫做实现。
-2. 继承使用extends关键字完成。实现使用implements关键字完成
-3. 当一个非抽象的类实现接口的话，必须将接口中所有的抽象方法全部实现(覆盖、重写)。
-4. 接口和接口之间支持多继承，一个类可以同时实现多个接口。而java中类和类只支持单继承。实际上单继承是为了简单而出现的，现实世界中存在多继承，java中的接口弥补了单继承带来的缺陷。
-5. 无论向上转型还是向下转型，两种类型之间必须要有继承关系，没有继承关系编译器会报错。(这句话不适用在接口方面。)最终实际上和之前还是一样，需要加：instanceof运算符进行判断。向下转型养成好习惯。转型之前先if+instanceof进行判断。
+**面向接口编程，可以降低程序的耦合度，提高程序的拓展力。符合OCP开发原则。接口的使用离不开多态机制(接口+多态才可以达到降低耦合度。)**
+1. 任何一个接口都有调用者和实现者，接口可以将调用者和实现者解耦合。
+2. 调用者面向接口调用，实现者面向接口编写实现。
+3. 以后进行大项目的开发，一般都是将项目分离成一个模块一个模块的，模块和模块之间采用接口衔接。降低耦合度。
+- 餐馆点菜场景(面向抽象编程)
 <pre>
-interface X{    
-}
-interface Y{
-}
-class Z implements X{
+// 中餐厨师
+class ChineseCook implements FoodMenu{
+    // 西红柿炒鸡蛋
+    public void dish1(){
+        System.out.println("中餐师傅做的西红柿炒鸡蛋");
+    }
+
+    // 鱼香肉丝
+    public void dish2(){
+        System.out.println("中餐师傅做的鱼香肉丝");
+    }
 }
 
-X x = new Z();
-Y y = (Y)x;
-// 经过测试：接口和接口之间在进行强制类型转换的时候，没有继承关系，也可以强转。
-// 但一定要注意，运行时可能会出现ClassCastException异常。
+// 西餐厨师
+class AmericanCook implements FoodMenu{
+    // 西红柿炒鸡蛋
+    public void dish1(){
+        System.out.println("西餐师傅做的西红柿炒鸡蛋");
+    }
+
+    // 鱼香肉丝
+    public void dish2(){
+        System.out.println("西餐师傅做的鱼香肉丝");
+    }
+}
+
+// 接口：菜单，抽象的
+interface FoodMenu{
+    // 西红柿炒鸡蛋
+    void dish1();
+
+    // 鱼香肉丝
+    void dish2();
+}
+
+// 顾客类
+class Customer{
+    // Customer has a FoodMenu; 顾客手里有一个菜单。
+    private FoodMenu f;
+
+    public Customer(){
+    }
+
+    public Customer(FoodMenu f){
+        this.f = f;
+    }
+
+    public void setF(FoodMenu f){
+        this.f = f;
+    }
+
+    public FoodMenu getF(){
+        return f;
+    }
+
+    public void order(){
+        f.dish1();
+        f.dish2();
+    }
+}
+
+// 测试类
+public class Test{
+    public static void main(String[] args){
+
+        // 创建厨师对象
+        FoodMenu cook1 = new AmericanCook();
+
+        // 创建顾客对象
+        Customer c = new Customer(cook1);
+
+        // 顾客点菜
+        c.order();
+    }
+}
 </pre>
+
+## 类型和类型之间的关系
+### is a(继承)、has a(关联)、like a(实现)
+1. is a：
+   - Cat is a Pet.(猫是一个宠物)
+   - 凡是能够满足is a的表示“继承关系”
+   - A extends B
+2. has a：
+   - Customer has a FoodMenu(顾客有一份菜单)
+   - 凡是能够满足has a关系的表示“关联关系”
+   - 关联关系通常以“属性”的形式存在。
+    A{
+        B b;
+    }
+3. like a：
+   - Cooker like a FoodMenu(厨师像一个菜单一样)
+   - 凡是能够满足like a关系的表示“实现关系”
+   - 实现关系通常是：类实现接口。
+   - A implements B
