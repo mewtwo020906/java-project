@@ -858,7 +858,7 @@ if(a2 instanceof Bird){
       - java com.bjpowernode.javase.day11.Test01
 <pre>
 package com.bjpowernode.javase.day11; //4个目录[目录之间使用.隔开]
-public clas Test01{
+public class Test01{
   public static void main(String[] args){
     System.out.println("Test01's main method execute!")
   }
