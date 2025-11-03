@@ -21,7 +21,9 @@
   - [多态](#多态)
   - [package](#package)
   - [import](#import)
+    - [总结package和import](#总结package和import)
   - [访问控制权限修改符：](#访问控制权限修改符)
+  - [访问控制修饰符    本类    同包    子类    任意位置](#访问控制修饰符----本类----同包----子类----任意位置)
 
 # 面向对象
 ## 面向过程和面向对象的区别
@@ -874,6 +876,23 @@ public class Test01{
 5. lang：language语言包，是java语言的核心类，不需要手动引入。所以可以String s = "abc";
 6. 什么时候需要import？
 - 不是java.lang包下，并且不再同一个包下的时候，需要使用improt进行引入。
+### 总结package和import
+package
+
+1. package出现在java源文件第一行。
+2. 带有包名怎么编译？ javac -d . xxx.java
+3. 怎么运行？ java 完整类名
+
+import
+
+1. import什么时候不需要
+- java.lang不需要
+- 同包下不需要
+- 其他一律都需要
+2. import怎么用
+- import 完整类名;
+- import 包名.*;
+
 ## 访问控制权限修改符：
 1. 访问控制权限修饰符来控制元素的访问范围
 2. 访问控制权限修饰符包括：
@@ -881,7 +900,15 @@ public class Test01{
 - protected   同包，子类
 - 缺省         同包
 - private     表示私有的，只能在本类中访问
-3. 访问控制权限修饰符可以修饰类、变量、方法...
-4. 当某个数据只希望子类使用，使用protected进行修饰。
-5. 修饰符的范围：private < 缺省 < protected < public
-6. 类只能采用public和缺省的修饰符进行修饰。[内部类除外]
+1. 访问控制权限修饰符可以修饰类、变量、方法...
+2. 当某个数据只希望子类使用，使用protected进行修饰。
+3. 修饰符的范围：private < 缺省 < protected < public
+4. 类只能采用public和缺省的修饰符进行修饰。[内部类除外]
+<pre>
+访问控制修饰符    本类    同包    子类    任意位置
+------------------------------------------------------
+public          可以    可以    可以    可以
+protected       可以    可以    可以    不行
+默认             可以    可以    不行    不行
+private         可以    不行    不行    不行
+</pre>
