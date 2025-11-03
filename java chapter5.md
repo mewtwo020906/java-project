@@ -240,3 +240,70 @@ public class Test{
    - 凡是能够满足like a关系的表示“实现关系”
    - 实现关系通常是：类实现接口。
    - A implements B
+
+## 源码及API文档概述
+### 什么是API
+- 应用程序编程接口。(Application Program Interface)
+- 整个JDK的类库就是一个javase的API。
+- 每一个API都会配置一套API帮助文档。
+- SUN公司提前写好的这套类库就是API。(一般每一份API都对应一份API帮助文档。)
+### 目前需要知道的几个方法
+- protected Object clone()      // 负责对象克隆的。
+- int hashCode()                // 获取对象哈希值的一个方法。
+- boolean equals(Object obj)    // 判断两个对象是否相等
+- String toString()             // 将对象转换成字符串形式
+- protected void finalize       // 垃圾回收器负责调用的方法
+### 关于Object类中的toString()方法
+1. 源代码长什么样？
+<pre>
+    public String toString(){
+        return this.getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+</pre>
+   - 源代码上toString()方法的默认实现是：
+     - 类名@对象的内存地址转换为十六进制的形式
+2. SUN公司设计toString()方法的目的是什么？
+   - toString()方法的作用是什么？
+     - toString()方法的设计目的是：通过调用这个方法可以将一个"java"对象转化成"字符串表示形式"
+3. SUN公司开发java语言的时候，建议所有的子类都去重写toString()方法。
+   - toString()方法应该是一个简洁的、详实的、易阅读的。
+**输出引用的时候，会自动调用该引用的toString()方法**
+### 关于Object类中的equals方法
+1. equals方法的源代码
+<pre>
+public boolean equals(Object obj){
+    return (this == obj);
+}
+</pre>
+2. SUN公司设计equals方法的目的是什么？
+   - 以后编程的过程当中，都要通过equals方法来判断两个对象是否相等。
+   - equals方法是判断两个对象是否相等的。 
+3. 我们需要研究一下Object类给的这个默认的equals方法够不够用
+   - 在Object类中的equals方法当中，默认采用的是"=="判断两个java对象是否相等。而"=="判断的是两个java对象的内存地址，我们应该判断两个java对象的内容是否相等。所以老祖宗的equals方法不够用，需要子类重写equals。
+4. 判断两个java对象是否相等，不能使用“==”。因为“==”比较的是两个对象的内存地址。
+### java语言当中的字符串String有没有重写toString方法，有没有重写equals方法
+1. String类已经重写了equals方法，比较两个字符串不能使用==，必须使用equals。equals是通用的。
+2. String类已经重写了toString方法。
+### 大结论
+1. java中什么类型的数据可以使用"=="判断
+   - java中基本数据类型比较是否相等，使用==
+2. java中什么类型的数据需要使用equals判断
+   - java中所有的引用数据类型统一使用equals方法来判断是否相等。
+### 关于Object类中的finalize()方法。--亡语
+1. 在Object类中的源代码：
+   - protected void finalize() throws Throwable{    }
+   - GC: 负责调用finalize()方法
+2. finalize()方法只有一个方法体，里面没有代码，而且这个方法是protected修饰的。
+3. 这个方法不需要程序员手动调用，JVM的垃圾回收器负责调用这个方法。不像equals toString,equals和toString()方法是需要你写代码调用的。finalize()只需要重写，重写完将来自动会有程序来调用。
+4. finalize()方法的执行时机：
+   - 当一个java对象即将被垃圾回收器回收的时候，垃圾回收器负责调用finalize()方法。
+5. finalize()方法实际上是SUN公司为java程序员准备的一个时机，垃圾销毁时机。如果希望在对象销毁时机执行一段代码的话，这段代码要写到finalize()方法当中
+6. 静态代码块的作用是什么？
+<pre>
+    static{
+        ...
+    }
+</pre>
+   - 静态代码块在类加载时刻执行，并且只执行一次。这是一个SUN准备的类加载时机。
+   - finalize()方法同样也是SUN为程序员准备的一个时机。这个时机是垃圾回收时机。
+7. java中的垃圾回收器不是轻易启动的，垃圾太少，或者时间没到，种种条件下，有可能启动，也有可能不启动。
