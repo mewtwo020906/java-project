@@ -307,3 +307,10 @@ public boolean equals(Object obj){
    - 静态代码块在类加载时刻执行，并且只执行一次。这是一个SUN准备的类加载时机。
    - finalize()方法同样也是SUN为程序员准备的一个时机。这个时机是垃圾回收时机。
 7. java中的垃圾回收器不是轻易启动的，垃圾太少，或者时间没到，种种条件下，有可能启动，也有可能不启动。
+### 关于Object类中的hashCode方法：
+1. 在Object中的hashCode方法是怎么样的？
+   - public native int hashCode();
+   - 这个方法不是抽象方法，带有native关键字，底层调用C++程序。
+2. hashCode()方法返回的是哈希码：
+   - 实际上就是一个java对象的内存地址，经过哈希算法，得出的一个值。
+   - 所以hashCode()方法的执行结果可以等同看作一个java对象的内存地址。
