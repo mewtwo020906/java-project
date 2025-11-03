@@ -14,7 +14,8 @@
 7. 任何新增/新建/添加的快捷键是：alt + insert
 8. 窗口变大，变小：ctrl + shift + F12
 9. 切换java程序：alt + 左右箭头
-10. 注释：
+10. Alt + Enter是最重要的快捷键之一，通常被称为 “万能快捷键”或 “快速修复”快捷键。
+11. 注释：
 - 单行注释：ctrl + /
 - 多行注释：ctrl + shift + /
 **注意：IDEA是自动保存，不需要ctrl + s**
@@ -314,3 +315,73 @@ public boolean equals(Object obj){
 2. hashCode()方法返回的是哈希码：
    - 实际上就是一个java对象的内存地址，经过哈希算法，得出的一个值。
    - 所以hashCode()方法的执行结果可以等同看作一个java对象的内存地址。
+## 匿名内部类
+1. 什么是内部类？
+   - 内部类：在类的内部有定义了一个新的类。被称为内部类。
+2. 内部类的分类：
+   - 静态内部类：类似于静态变量
+   - 实例内部类：类似于实例变量
+   - 局部内部类：类似于局部变量
+3. 使用内部类编写的代码，可读性很差，能不用尽量不用。
+4. 匿名内部类是局部内部类的一种。因为这个类没有名字而得名，叫做匿名内部类。
+5. 学习匿名内部类主要是在阅读别人代码的时候，能够理解。平时不建议用，有两个缺点：
+   - 缺点1：太复杂，太乱，可读性差。
+   - 缺点2：类没有名字，以后想重复使用，不能用。
+<pre>
+class Test01{
+    // 静态变量
+    static String country；
+    // 该类在类的内部，所以称为内部类
+    // 由于前面有static，所以称为“静态内部类”
+    static class Inner1{
+    }
+
+    // 实例变量
+    int age；
+    // 该类在类的内部，所以称为内部类
+    // 没有static叫做“实例内部类”
+    class Inner2{
+    }
+
+    // 方法
+    public void doSome(){
+        // 局部变量
+        int i = 100;
+        // 该类在类的内部，所以称为内部类
+        // 局部内部类
+        class Inner3{
+        }
+    }
+
+    public void doOther(){
+        // doSome()方法中的局部内部类Inner3，在doOther()中不能用。
+    }
+
+    // 负责计算的接口
+    interface compute(){
+
+        // 抽象方法
+        int sum(int x ,int y)
+    }
+
+    public static void main(){
+        // 调用MaMyth中的mySum方法。
+        Mymath mm = new MyMath();
+        mm.mySum(new Compute(){
+            public int sum(int a, int b){
+                return a + b;
+            }
+        }, 200, 300)
+    }
+
+}
+
+// 数学类
+class MyMath{
+    // 数学求和方法
+    public void mySum(Compute c ,int x, int y){
+        int retValue = c.sum(x ,y );
+        System.out.println(x + "+" + y + "+" + "=" + reValue);  
+    }
+}
+</pre>
