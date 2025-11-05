@@ -8,6 +8,7 @@ public class MyStack {
 
     // 带容量的构造方法
     public MyStack(int capacity) {
+
         elements = new Object[capacity];
     }
 
