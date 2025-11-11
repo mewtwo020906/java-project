@@ -576,4 +576,146 @@ public class StringTest{
 3. System.gc()  建议启动垃圾回收器
 4. System.currentTimeMillis()   获取自1970年1月1日到系统当前时间的总毫秒数。
 5. System.exit(0) 退出JVM。
-6. 
+
+## 数字类
+### 数字格式化
+<pre>
+        // java.text.DecimalFormat专门负责数字格式化的。
+        // DecimalFormat df = new DecimalFormat("数字格式");
+        /*
+        数字格式有哪些？
+            # 代表任意数字
+            , 代表千分位
+            . 代表小数点
+            0 代表不够时补0
+
+            ###,###.##
+                表示:加入千分位，保留2个小数。
+         */
+        DecimalFormat df = new DecimalFormat("###,###.##");
+        String s = df.format(1234.561233);
+        System.out.println(s); // "1,234.56"
+
+        DecimalFormat df2 = new DecimalFormat("###,###.0000");
+        String s2 = df2.format(1234.56);
+        System.out.println(s2); // "1,234.5600"
+</pre>
+
+### 高精度BigDecimal
+1. BigDecimal 属于大数据，精度极高。不属于基本数据类型，属于java对象(引用数据类型)这是SUN提供的一个类。专门用在财务软件当中。
+2. 财务软件中double是不够的，用的是java.math.BigDecimal
+<pre>
+        // 这个100不是普通的100，是精度极高的100
+        BigDecimal v1 = new BigDecimal(100);
+        // 精度极高的200
+        BigDecimal v2 = new BigDecimal(200);
+        // 求和
+        // v1 + v2; 这样直接不行，因为v1和v2都是引用，不能直接使用+求和
+        BigDecimal v3 = v1.add(v2); // 调用方法求和
+        System.out.println(v3); // 300
+
+        BigDecimal v4 = v2.divide(v1);
+        System.out.println(v4);
+</pre>
+
+### 随机数
+<pre>
+        // 创建随机数对象
+        Random random = new Random();
+
+        // 随机产生一个int类型取值范围内的数字。
+        int num1 = random.nextInt();
+        System.out.println(num1);
+
+        // 产生[0~100]之间的随机数。不能产生101.
+        // netInt翻译为：下一个int类型的数据是101，表示只能取到100.
+        int num2 = random.nextInt(101);
+        System.out.println(num2);
+</pre>
+- 编写程序，生成5个不重复的随机数。重复的的话重新生成
+- 最终生成的5个随机数放到数组中，要求数组中这5个随机数不重复。
+<pre>
+    // 设置标志
+    static boolean flag = true;
+
+    public static void main(String[] args)  {
+        // 生成一个一维数组
+        int[] array = new int[5];
+
+        // 创建随机数对象
+        Random random = new Random();
+
+        while(flag){ // 如果有重复的元素,重新生成
+            for (int i = 0; i < array.length; i++) {
+                array[i] = random.nextInt(6);
+            }
+            flag = checkArray(array);
+        }
+
+        // 打印数组
+        for (int i = 0; i < array.length; i++) {
+            System.out.println(i + "号元素："+ array[i]);
+        }
+
+    }
+
+    // 此方法用于改变标志
+    public static boolean checkArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = i + 1; j < array.length; j++) {
+                if (array[i] == array[j]) {
+                    return true;
+
+                }
+            }
+        }
+        return false;
+</pre>
+
+## 枚举类型
+
+1. 枚举是一种引用数据类型
+2. 枚举类型怎么定义，语法是？
+<pre>
+enum 枚举类型名{
+    枚举值1，枚举值2
+}
+</pre>
+3. 结果只有两种情况的，建议使用布尔类型
+4. 结果超过两种并且还是可以一枚一枚列举出来的，建议使用枚举类型
+   - 例如：颜色、四季、星期等都可以使用枚举
+<pre>
+public class test {
+    public static void main(String[] args)  {
+        Result r = divide(10 , 2);
+        System.out.println( r == Result.SUCCESS ? "计算成功" : "计算失败");
+    }
+
+    /**
+     * 计算两个int类型数据的商
+     * @param a int数据
+     * @param b int数据
+     * @return Result.SUCCESS表示成功，Resulty.FAIL表示失败！
+     */
+    public static Result divide(int a , int b)  {
+        try{
+            int c = a / b;
+            return Result.SUCCESS;
+        } catch (Exception e){
+            return Result.FAIL;
+        }
+    }
+}
+
+// 枚举:一枚一枚可以列举出来的，才建议使用枚举类型。
+// 枚举编译之后也是生成class文件。
+// 枚举也是一种引用数据类型。
+// 枚举中的每一个值可以看做是常量。
+enum Result {
+    // SUCCESS 是枚举Result类型中的一个值
+    // FAIL 是枚举Result类型中的一个值
+    // 枚举中的每一个值，可以看作是"常量"
+    SUCCESS,FAIL
+}
+
+</pre>
