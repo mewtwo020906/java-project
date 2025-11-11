@@ -487,7 +487,7 @@ public class StringTest{
 </pre>
 
 ## java对日期的处理
-
+### 基本用法
 1. 怎么获取系统当前时间
 2. String ---> Date
 3. Date ---> String
@@ -527,7 +527,7 @@ public class StringTest{
         System.out.println(dateTime); // Fri Aug 08 08:08:08 CST 2008
 </pre>
 
-- 统计一个方法耗费时间
+### 统计一个方法耗费时间
 
 <pre>
         // 获取自1970年1月1日 00:00:00 000到当前系统时间的总毫秒数。
@@ -552,9 +552,28 @@ public class StringTest{
     }
 </pre>
 
+### 通过毫秒构造Date对象
+- Date(long date)
+- 其中date是自1970年1月1日00：00：00以来的毫秒数
+<pre>
+        // 1970-01-01 00:00:00 001
+        Date date = new Date(1); // 注意：参数是一个毫秒
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+        String strTime = sdf.format(date);
+        // 北京是东8区，差8个小时
+        System.out.println(strTime); // 1970-01-01 08:00:00 001
+
+        // 获取昨天的此时的时间
+        Date time2 = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
+        String strTime2 = sdf.format(time2);
+        System.out.println(strTime2); // 2025-11-10 17:32:55 691
+</pre>
+
 ## 简单总结以下System类的相关属性和方法
 1. System.out   [out是System类的静态变量。]
 2. System.out.println() [println()方法不是System类的，是PrintStream类的方法]
 3. System.gc()  建议启动垃圾回收器
 4. System.currentTimeMillis()   获取自1970年1月1日到系统当前时间的总毫秒数。
 5. System.exit(0) 退出JVM。
+6. 
