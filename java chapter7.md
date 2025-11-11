@@ -420,7 +420,38 @@ public class StringTest{
         float retValue3 = Float.parseFloat("1.0");
         System.out.println(retValue3 + 1); // 2.0
 
-        -------------了解以下内容-----------------
+        //-------------了解以下内容-----------------
+        // static String toBinaryString(int i)
+        // 静态的：将十进制转换成二进制字符串。
+        String binaryString = Integer.toBinaryString(3);
+        System.out.println(binaryString); // "11" 二进制字符串
+
+        // static String toHexString(int i )
+        // 静态的：将十进制转换成十六进制字符串。
+        String hexString = Integer.toHexString(16);
+        System.out.println(hexString); // "10"
+
+        hexString = Integer.toHexString(17);
+        System.out.println(hexString); // "11"
+
+        // static String toOctalString(int i)
+        // 静态的:将十进制转换成八进制字符串。
+        String octalString = Integer.toOctalString(8);
+        System.out.println(octalString); // "10"
+
+        System.out.println(new Object()); //默认调用的toString方法用的是toHexString()
+
+        // valueOf方法作为了解
+        // static Integer valueOf(int i)
+        // 静态的：int -->Integer
+        Integer i1 = Integer.valueOf(100);
+        System.out.println(i1);
+
+        // static Integer valueOf(String s)
+        // 静态的：String-->Integer
+        Integer i2 = Integer.valueOf("100");
+        System.out.println(i2);
+
 </pre>
 
 ### 总结学过的几个经典异常
@@ -429,3 +460,28 @@ public class StringTest{
 3. 数组下标越界异常：ArrayIndexOfBoundsException
 4. 数字格式化异常：NumberFormatException
 
+### String int Integer之间互相转换
+<pre>
+        //String --> int
+        String s1 = "100";
+        int i1 = Integer.parseInt(s1);
+        System.out.println(i1 + 1); // 101
+
+        // int --> String
+        String s2 = i1 + "";
+        System.out.println(s2 + 1); // 1001
+
+        // int --> Integer
+        // 自动装箱
+        Integer x = 1000;
+
+        // Integer --> int
+        // 自动拆箱
+        int y = x;
+
+        // String --> Integer
+        Integer k = Integer.valueOf("123");
+
+        // Integer --> String
+        String e = String.valueOf(y);
+</pre>
