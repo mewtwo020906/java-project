@@ -485,3 +485,76 @@ public class StringTest{
         // Integer --> String
         String e = String.valueOf(y);
 </pre>
+
+## java对日期的处理
+
+1. 怎么获取系统当前时间
+2. String ---> Date
+3. Date ---> String
+<pre>
+// 获取系统当前时间(精确到毫秒的系统当前时间)
+        // 直接调用无参构造方法就行
+        Date nowTime = new Date();
+
+        // java.util.Date类的toString()方法已经被重写了。
+        // 输出的应该不是一个对象的内存地址，应该是一个日期字符串。
+        System.out.println(nowTime); // Tue Nov 11 11:38:23 CST 2025
+
+        // 日期可以格式化吗？
+        // 将日期类型Date，按照指定的格式进行转换：Date --转换成具有一定格式的日期字符串-->String
+        // SimpleDateFormat是java.text包下的。专门负责日期格式化的。
+        /*
+        yyyy 年
+        MM 月
+        dd 日
+        HH 时
+        mm 分
+        ss 秒
+        SSS 毫秒
+        注意：在日期格式中，除了y M d H m s S这些字符不能随便写之外，剩下的符号格式自己随意组织
+         */
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+        String nowTimeStr = sdf.format(nowTime);
+        System.out.println(nowTimeStr);
+
+        // 假设现在有一个日期字符串String，怎么转换成Date类型？
+        // String --> Date
+        String time = "2008-08-08 08:08:08 888";
+        // SimpleDateFormat sdf2 = new SimpleDateFormat("格式不能随便写，要和日期字符串格式相同");
+        // 注意：字符串的日期格式和SimpleDateFormat对象指定的日期格式要一致。不然会出现异常：java.text.ParseException
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+        Date dateTime = sdf2.parse(time);
+        System.out.println(dateTime); // Fri Aug 08 08:08:08 CST 2008
+</pre>
+
+- 统计一个方法耗费时间
+
+<pre>
+        // 获取自1970年1月1日 00:00:00 000到当前系统时间的总毫秒数。
+        long nowTimeMillis = System.currentTimeMillis();
+        System.out.println("nowTimeMillis=" + nowTimeMillis);
+
+        // 统计一个方法耗时
+        // 在调用目标方法之前记录一个毫秒数
+        long begin = System.currentTimeMillis();
+        print();
+        // 在执行完目标方法之后记录一个毫秒数
+        long end = System.currentTimeMillis();
+        System.out.println("耗费时长" + (end - begin) + "毫秒");
+
+    }
+
+    // 需求：统计一个方法执行所耗费的时长
+    public static void print() {
+        for (int i = 0; i < 10;i++) {
+            System.out.println("i = " + i);
+        }
+    }
+</pre>
+
+## 简单总结以下System类的相关属性和方法
+1. System.out   [out是System类的静态变量。]
+2. System.out.println() [println()方法不是System类的，是PrintStream类的方法]
+3. System.gc()  建议启动垃圾回收器
+4. System.currentTimeMillis()   获取自1970年1月1日到系统当前时间的总毫秒数。
+5. System.exit(0) 退出JVM。
