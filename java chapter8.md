@@ -1,3 +1,19 @@
+- [异常](#异常)
+  - [什么是异常，java提供异常处理机制有什么用？](#什么是异常java提供异常处理机制有什么用)
+  - [java语言中异常是以什么形式存在的呢？](#java语言中异常是以什么形式存在的呢)
+    - [关于Throwable、Error与Exception类](#关于throwableerror与exception类)
+      - [运行时异常案例](#运行时异常案例)
+      - [编译时异常案例](#编译时异常案例)
+    - [java语言中对异常的处理包括两种方式：](#java语言中对异常的处理包括两种方式)
+      - [第一种处理方式：上抛](#第一种处理方式上抛)
+      - [第二种处理方式：try...catch进行捕捉](#第二种处理方式trycatch进行捕捉)
+      - [异常捕捉和上报的联合使用](#异常捕捉和上报的联合使用)
+      - [深入try...catch](#深入trycatch)
+      - [上报和捕捉怎么选择](#上报和捕捉怎么选择)
+    - [异常对象的常用方法](#异常对象的常用方法)
+    - [final关键字](#final关键字)
+  - [UML以及starUML](#uml以及staruml)
+
 # 异常
 ## 什么是异常，java提供异常处理机制有什么用？
 1. 程序在执行过程中发生了不正常的情况，而这种不正常的情况叫做：异常
@@ -51,6 +67,52 @@
 
 **编译时异常又被称为受检异常，还有叫做受控异常(CheckException)。运行时异常又被称为未受检异常，或者叫非受控异常(UnCheckException)**
 
+#### 运行时异常案例
+<pre>
+        /*
+        程序执行到此处发生了ArithmeticException异常，
+        底层new了一个ArithmeticException异常对象，
+        然后抛出了，由于是main方法调用了100 / 0.
+        所以这个异常ArithmeticException抛给了main方法，
+        main方法没有处理，将这个异常自动抛给了JVM。
+        JVM最终终止程序的执行。
+
+        ArithmeticException继承RuntimeException，属于运行时异常。
+        在编写程序阶段不需要对这种异常进行预先的处理。
+         */
+        System.out.println(100 / 0);
+
+        // 这里的HelloWorld没有输出，没有执行
+        System.out.println("Hello World!");
+</pre>
+
+#### 编译时异常案例
+<pre>
+    /*
+    以下代码报错的原因是什么？
+        因为doSome()方法声明位置上使用了:throws ClassNotFoundException
+        而ClassNotFoundException是编译时异常。必须编写代码时处理，没有处理编译器报错。
+     */
+    public static void main(String[] args) {
+        // main方法中调用doSome()方法
+        // 因为doSome()方法声明位置上有：throws ClassNotFoundException
+        // 我们在调用doSome()方法的时候必须对这种异常进行预先的处理。
+        // 如果不处理，编译器就报错。
+        // 编译器报错信息：Unhandled exception：java.lang.ClassNotFoundException
+        doSome();
+
+    }
+    /**
+     *  doSome方法在方法声明的位置上使用了：throws ClassNotFoundException
+     *  这个代码表示doSome()方法在执行过程中，有可能会出现ClassNotFoundException异常。
+     *  叫做类没找到异常。这个异常直接父类是：Exception，所以ClassNotFoundException属于编译时异常。
+     * @throws ClassNotFoundException
+     */
+    public static void doSome() throws ClassNotFoundException{
+        System.out.println("doSome");
+    }
+</pre>
+
 ### java语言中对异常的处理包括两种方式：
 1. 第一种方式：在方法声明的位置上，使用throws关键字，抛给上一级。
 - 谁调用我，我就抛给谁。抛给上一级
@@ -58,6 +120,372 @@
 - 这件事发生了，谁也不知道。因为我给抓住了。
 3. 异常发生后，如果我选择上抛，抛给了我的调用者，调用者需要对这个异常继续处理，那么调用者处理这个异常同样有两种处理方式。
 4. java中异常发生之后如果一直上抛，最终抛给了main方法，main方法继续向上抛，抛给了调用者JVM，JVM知道这个异常发生，只有一个结果。终止java程序的执行。
+
+#### 第一种处理方式：上抛
+<pre>
+    // 第一种处理方式：在方法声明的位置上继续使用：throws，来完成异常的上抛。抛给调用者。
+    // 上抛类似于推卸责任。(继续把异常传递给调用者)
+    public static void main(String[] args) throws ClassNotFoundException {
+        doSome();
+    }
+
+    public static void doSome() throws ClassNotFoundException{
+        System.out.println("doSome");
+    }
+</pre>
+
+#### 第二种处理方式：try...catch进行捕捉
+<pre>
+    // 第二种处理方式：在方法声明的位置上继续使用：throws，来完成异常的上抛。抛给调用者。
+    // 捕捉等于把异常拦下来了，异常真正的解决了。(调用者是不知道的。)
+    public static void main(String[] args) {
+        try{
+            doSome();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void doSome() throws ClassNotFoundException{
+        System.out.println("doSome");
+    }
+</pre>
+
+#### 异常捕捉和上报的联合使用
+<pre>
+/*
+处理异常的第一种方式：
+    在方法声明的位置上使用throws关键字抛出。谁调用我这个方法，我就抛给谁。抛给调用者来处理。
+    在种处理异常的态度：上报。
+处理异常的第二种方式：
+    使用try...catch语句对异常进行捕捉。
+    这个异常不会上报，自己把这个事儿处理了。
+    异常抛到此处为止，不在上抛了。
+ */
+    public static void main(String[] args) {
+        // 一般不建议在main方法上使用throws，因为这个异常如果真正的发生了，一定会抛给JVM。JVM只有终止
+        // 异常处理机制的作用就是增强程序的健壮性。怎么能做到，异常发生了也不影响程序的执行。所以
+        // 一般main方法中的异常建议使用try...catch进行捕捉。main就不要继续上抛了。
+        System.out.println("main begin");
+        try{
+            // try尝试
+            m1();
+            // 以上代码出现异常，直接进入catch语句块中执行。
+            System.out.println("hello world!");
+        }catch (FileNotFoundException e){
+            // 这个分支中可以使用e引用，e引用保存的内存地址是那个new出来异常对象的内存地址。
+            // catch是捕捉异常之后走的分支。
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
+        // try...catch把异常抓住之后，这里的代码会继续执行。
+        System.out.println("main over");
+    }
+
+    public static void m1() throws FileNotFoundException {
+        System.out.println("m1 begin");
+            m2();
+        System.out.println("m1 over");
+    }
+
+    // 抛别的不行，抛ClassCastException说明还是没有对FileNotFoundException进行处理
+    // public static void m2() throws ClassCastException
+
+    // 抛FileNotFoundException的父对象IOException，这样是可以的。因为IOException包括FileNotFoundException
+    // public static void m2() throws IOException
+
+    // 这样也可以，因为Exception包括所有的异常。
+    // public static void m2() throws Exception
+
+    // throws后面也可以写多个异常，可以使用逗号隔开。
+    // public static void m2() throws ClassCastException，FileNotFoundException
+
+    public static void m2() throws FileNotFoundException {
+        System.out.println("m2 begin");
+        m3();
+        System.out.println("m2 over");
+    }
+
+    public static void m3() throws FileNotFoundException {
+        // 调用SUN jdk中某个类的构造方法
+        // 创建一个输入流对象，该流指向一个文件
+        /*
+        编译报错的原因是什么？
+            第一：这里调用了一个构造方法：FileInputStream(String name)
+            第二：这个构造方法的声明位置上有：throws FileNotFoundException
+            第三：通过类的继承结构看到：FileNotFoundException父类是IOException，
+            IOException的父类是Exception，最终得知，FileNotFoundException是编译时异常。
+         */
+
+         // 第一种处理方式：在方法声明的位置上使用throws继续上抛。
+         // 一个方法体当中的代码出现异常之后，如果上报的话，此方法结束。
+        new FileInputStream("D:\\pokemon\\HoennRegion\\星空倒影(120公路).png");
+
+    }
+</pre>
+**只要异常没捕捉，采用上报的方式，此方法的后续代码不会执行**
+**另外需要注意，try语句块中的某一行出现异常，该行后面的代码不会执行**
+**try...catch捕捉异常之后，后续代码可以执行。**
+
+#### 深入try...catch
+1. 编译报错
+<pre>
+        try{
+            FileInputStream fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\星空倒影(120公路).png");
+        }catch(NullPointerException e){
+
+        }
+</pre>
+
+2. 正常通过
+<pre>
+        try{
+            FileInputStream fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\星空倒影(120公路).png");
+            System.out.println("以上出现异常，这里无法执行！");
+        }catch(FileNotFoundException e){
+            System.out.println("File not found");
+        }
+
+        System.out.println("hello world!");
+</pre>
+
+3. 多态:catch后面的小括号中的类型可以是具体的异常类型，也可以是该异常类型的父类型
+<pre>
+   IOException e = new FileNotFoundException();
+        try{
+            FileInputStream fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\星空倒影(120公路).png");
+            System.out.println("以上出现异常，这里无法执行！");
+        }catch(IOException e){
+            System.out.println("File not found");
+        }
+</pre>
+
+4. catch可以写多个。建议catch的时候，精确的一个一个处理。这样有利于程序的调式。
+<pre>
+        try{
+            // 创建输入流
+            FileInputStream fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\星空倒影(120公路).png");
+            // 读文件
+            fis.read();
+        }catch(FileNotFoundException e){
+            System.out.println("File not found");
+        }catch (IOException e){
+            System.out.println("Error reading file");
+        }
+</pre>
+
+5. catch写多个的时候，从上到下，必须遵守从小到大
+<pre>
+        // 编译报错
+        try{
+            // 创建输入流
+            FileInputStream fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\星空倒影(120公路).png");
+            // 读文件
+            fis.read();
+        }catch(IOException e){
+            System.out.println("Error reading file");
+        }catch (FileNotFoundException e){
+            System.out.println("File not found");
+        }
+</pre>
+
+6. catch里面支持"多个异常"
+<pre>
+        try{
+            // 创建输入流
+            FileInputStream fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\星空倒影(120公路).png");
+            // 进行数学运算
+            // 该异常是运行时异常，编写程序时可以处理，也可以不处理
+            System.out.println(100 / 0);
+        }catch(FileNotFoundException | ArithmeticException | NullPointerException e){
+            System.out.println("文件不存在？数学异常？空指针异常？都有可能");
+        }
+</pre>
+
+#### 上报和捕捉怎么选择
+- 在以后的开发中，处理编译时异常，应该上报还是捕捉呢，怎么选？
+  - 如果希望调用者来处理，选择throws上报。
+  - 其他情况使用捕捉的方式
+
+### 异常对象的常用方法
+1. 获取异常简单的描述信息：
+   - String msg = exception.getMessage();
+2. 打印异常追踪的堆栈信息：
+   - exception.printStackTrace();
+<pre>
+        // 这里只是new了异常对象，但是没有将异常对象抛出。JVM会认为这是一个普通的java对象。
+        NullPointerException e = new NullPointerException("空指针异常");
+
+        // 获取异常简单描述信息
+        String msg = e.getMessage();
+        System.out.println(msg);
+
+        // 打印异常堆栈信息
+        // java后代打印异常堆栈追踪信息的时候，采用了异步线程的方式打印的
+        e.printStackTrace();
+
+        System.out.println("Hello World");
+</pre>
+3. 我们以后查看异常的追踪信息，我们应该怎么看，可以快速地调式程序呢？
+   - 异常信息追踪信息，从上往下一行一行看。
+   - 但是需要注意的是：SUN写的代码就不用看了。(看包名区分)
+   - 主要的问题是出现在自己编写的代码上。
+<pre>
+    public static void main(String[] args) {
+        try{
+            m1();
+        }catch(FileNotFoundException e){
+            // 打印异常堆栈追踪信息！！！
+            // 在实际的开发中，建议使用这个。养成好习惯！
+            e.printStackTrace();
+            /*
+            java.io.FileNotFoundException: D:\pokemon\HoennRegion\星空倒影(120公路).png (系统找不到指定的路径。)
+                at java.base/java.io.FileInputStream.open0(Native Method)
+                at java.base/java.io.FileInputStream.open(FileInputStream.java:185)
+                at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+                at java.base/java.io.FileInputStream.<init>(FileInputStream.java:109)
+                at Test.m3(Test.java:39)
+                at Test.m2(Test.java:35)
+                at Test.m1(Test.java:31)
+                at Test.main(Test.java:8)
+             */
+        }
+
+        // 这里程序不耽误执行，很健壮。(服务器不会因为遇到异常而宕机)
+        System.out.println("Hello World");
+    }
+
+    public static void m1() throws FileNotFoundException {
+        m2();
+    }
+
+    public static void m2() throws FileNotFoundException {
+        m3();
+    }
+
+    public static void m3() throws FileNotFoundException {
+        new FileInputStream("D:\\pokemon\\HoennRegion\\星空倒影(120公路).png");
+    }
+</pre>
+
+### final关键字
+1. 在finall子句中的代码是最后执行的，并且是一定会执行的，即使try语句块中的代码出现了异常。
+   - finally子句必须和try一起出现，不能单独编写。
+2. finally语句通常使用在哪些情况下呢？
+   - 通常在finally语句块中完成资源的释放/关闭。
+   - 因为finally中的代码比较有保障。
+   - 即使try语句块中的代码出现异常，finally中代码也会正常执行。
+<pre>
+    public static void main(String[] args) {
+        FileInputStream fis = null;
+        try{
+            // 创建输入流对象
+            fis = new FileInputStream("D:\\pokemon\\HoennRegion\\星空倒影(120公路).png");
+            // 开始读文件...
+
+            String s = null;
+            // 这里一定会出现空指针异常！
+            s.toString();
+            System.out.println("hello world!");
+
+            // 流使用完需要关闭，因为流是占用资源的。
+            // 即使以上程序出现异常，流也必须要关闭！
+            // 放在这里有可能流关不了。
+            // fis.close();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        } catch(NullPointerException e){
+            e.printStackTrace();
+        }finally{
+            System.out.println("hello");
+            // 流的关闭放在这里比较保险。
+            // finally中的代码是一定会执行的。
+            // 即使try中出现了异常！
+            if(fis != null){ // 避免空指针异常！
+                try {
+                    // close()方法有异常，采用捕捉的方式。
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        System.out.println("hello world!");
+    }
+ 
+</pre>
+
+3. 放在finally语句块中的代码是一定会执行的
+<pre>
+        /*
+        try和finally，没有catch可以吗？可以。
+            try不能单独使用。
+            try finally可以联合使用。
+        以下代码的执行顺序：
+            先执行try...
+            再执行finally...
+            最后执行 return(return语句只要执行方法必然结束。)
+         */
+        try{
+            System.out.println("try...");
+            return;
+        } finally {
+            // finally中的语句会执行。能执行到。
+            System.out.println("finally...");
+        }
+</pre>
+
+4. 有个特殊情况
+<pre>
+        try{
+            System.out.println("try...");
+            // 退出JVM
+            System.exit(0);// 退出JVM之后，finally语句中的代码就不执行了！
+        } finally {
+            System.out.println("finally...");
+        }
+</pre>
+
+5. 有关于final的面试题
+<pre>
+    public static void main(String[] args) {
+        int result = m();
+        System.out.println(result);
+    }
+
+    /*
+    java语法规则(有一些规则是不能破坏的，一旦这么说了，就必须这么做！)：
+        java中这样的规则：
+            方法体中的代码必须遵循自上而下顺序依次逐行执行
+            returun语句一旦执行，整个方法必须结束
+     */
+    public static int m() {
+        int i = 100;
+        try{
+            // 这行代码出现在int i = 100；下面，所以最终结果必须是返回100
+            // return语句还必须保证是最后执行的。一旦执行，整个方法结束。
+            return i;
+        }finally{
+            i++;
+        }
+    }
+
+    /*
+    反编译之后的效果
+    public static int m(){
+        int i = 100;
+        int j = i;
+        i++;
+        return j;
+    }
+     */
+</pre>
 
 ## UML以及starUML
 1. UML是一种统一建模语言，一种图标式语言
