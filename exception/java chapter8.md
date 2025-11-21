@@ -12,7 +12,12 @@
       - [上报和捕捉怎么选择](#上报和捕捉怎么选择)
     - [异常对象的常用方法](#异常对象的常用方法)
     - [final关键字](#final关键字)
+    - [final finally finalize有什么区别](#final-finally-finalize有什么区别)
+  - [java中如何自定义异常](#java中如何自定义异常)
+  - [异常在实际开发中的作用](#异常在实际开发中的作用)
+  - [总结异常中的关键字](#总结异常中的关键字)
   - [UML以及starUML](#uml以及staruml)
+  - [异常作业案例](#异常作业案例)
 
 # 异常
 ## 什么是异常，java提供异常处理机制有什么用？
@@ -487,6 +492,106 @@
      */
 </pre>
 
+### final finally finalize有什么区别
+1. final关键字
+   - final修饰的类无法继承
+   - final修饰的方法无法覆盖
+   - final修饰的变量不能重新赋值
+2. finally关键字
+   - 和try一起联合使用。
+   - finally语句块中的代码是必须执行的。
+3. finalize标识符
+   - 是一个Object类中的方法名,这个方法是由垃圾回收器GC负责调用的。
+<pre>
+public static void main(String[] args) {
+
+        // final是一个关键字。表示最终的，不变的。
+        final int i = 100;
+        // i = 200;
+
+        // finally也是一个关键字，和try联合使用，使用在异常处理机制中
+        // 在finally语句块中的代码是一定会执行的。
+        try {
+
+        } finally {
+            System.out.println("finally......");
+        }
+
+        // finalize()是Object类中的一个方法。作为方法名出现，
+        // 所以finalize是标识符。
+        Object obj;
+    }
+}
+
+// final修饰的类无法继承
+final class A{
+    // 常量
+    public static final double MATH_PI = 3.1415926;
+}
+
+class B{
+    // final修饰的方法无法覆盖
+    public final void doSome(){
+
+    }
+</pre>
+
+## java中如何自定义异常
+1. SUN提供的JDK内置的异常肯定是不够用的。在实际的开发中，有很多业务，这些业务出现异常之后，JDK中都是没有的。和业务挂钩的。那么异常类我们程序员可以自己定义吗？
+   - 可以。
+2. java中怎么自定义异常呢？
+   - 第一步：编写一个类继承Exception或者RuntimeException。
+   - 第二步：提供两个构造方法，一个无参数的，一个带有String参数的。
+<pre>
+public class Test {
+    public static void main(String[] args) {
+
+        // 创建异常对象(只new了异常对象，并没有手动抛出)
+        MyException e = new MyException("用户名不能为空！");
+
+        // 打印异常堆栈信息
+        e.printStackTrace();
+
+        // 获取异常简单描述信息
+        String msg = e.getMessage();
+        System.out.println(msg);
+    }
+}
+
+/*
+public class MyException extends Exception{ // 编译时异常
+    public MyException() {
+
+    }
+    public MyException(String s) {
+        super(s);
+    }
+}
+ */
+
+
+/*
+public class MyException extends RuntimeException{ // 运行时异常
+
+}
+ */
+</pre>
+
+## 异常在实际开发中的作用
+- 详细看弹栈压栈与异常结合的案例。MyStackTest。
+
+
+## 总结异常中的关键字
+1. 异常捕捉：
+   - try
+   - catch
+   - finally
+   - throws 在方法声明位置上使用，表示上报异常信息给调用者。
+   - throw 手动抛出异常！
+
+
+
+
 ## UML以及starUML
 1. UML是一种统一建模语言，一种图标式语言
 2. UML不是只有java中使用，只要是面向对象的编程语言，都有UML。
@@ -494,6 +599,29 @@
 4. 在UML图中可以描述类和类之间的关系，程序执行的流程，对象的状态等
 5. 在java软件开发当中，软件分析师/设计师负责设计类，java软件开发人员必须要能看懂。
 
+## 异常作业案例
+编写程序模拟用户注册：
+1. 程序开始执行时，提示用户输入”用户名“和”密码“信息。
+2. 输入信息之后，后台java程序模拟用户注册
+3. 注册时用户名要求长度在[6 - 14]之间，小于或者大于都表示异常
 
+注意：
+    完成注册的方法放到一个单独的类中。
+    异常类自定义即可。
 
+    class UserService{
+        public void register(String username, String password)
+            //这个方法中完成注册！
+    }
 
+    编写main方法，在main方法中接受用户输入的信息，在main方法中调用UserService的regiseter方法完成注册。
+
+开放型题目，随意发挥：
+    写一个类Army，代表一支军队，这个类有一个属性Weapon数组(用来存储该军队所拥有的所有)该类还提供一个构造方法，在构造方法里通过传一个int类型的参数来限定该类所能拥有的最大并用这一大小来初始化数组w。
+
+    该类还提供一个方法addWeapon(Weapon wa),表示把参数wa所代表的武器加入到数组w中。在这个类中还定义两个方法attackAll()让w数组中的所有武器攻击；以及moveAll()让w数组中的所有可移动的武器移动。
+
+    写一个主方法去测试以上程序。
+
+    提示：
+        Weapon是一个父类。应该有很多子武器。这些子武器应该有一些是可移动的，有一些是可攻击的。
