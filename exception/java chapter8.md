@@ -15,6 +15,7 @@
     - [final finally finalize有什么区别](#final-finally-finalize有什么区别)
   - [java中如何自定义异常](#java中如何自定义异常)
   - [异常在实际开发中的作用](#异常在实际开发中的作用)
+  - [异常与方法覆盖](#异常与方法覆盖)
   - [总结异常中的关键字](#总结异常中的关键字)
   - [UML以及starUML](#uml以及staruml)
   - [异常作业案例](#异常作业案例)
@@ -578,8 +579,43 @@ public class MyException extends RuntimeException{ // 运行时异常
 </pre>
 
 ## 异常在实际开发中的作用
-- 详细看弹栈压栈与异常结合的案例。MyStackTest。
+**详细看弹栈压栈与异常结合的案例。StackCase。**
 
+## 异常与方法覆盖
+- 重写之后的方法不能比重写之前的方法抛出更多(更宽泛)的异常，可以更少。
+<pre>
+class Animal{
+    public void doSome(){
+
+    }
+
+    public void doOther() throws Exception{
+
+    }
+}
+
+class Cat extends Animal{
+    // 编译报错。
+    /* public void doSome() throws Exception{
+
+    } */
+
+    // 编译正常
+    /* public void doOther(){
+
+    } */
+
+    // 编译正常
+    /* public void doOther() throws Exception{
+        
+    } */
+
+    // 编译正常
+    public void doOther() throws NullPointerException{
+
+    }
+}
+</pre>
 
 ## 总结异常中的关键字
 1. 异常捕捉：
@@ -604,6 +640,8 @@ public class MyException extends RuntimeException{ // 运行时异常
 1. 程序开始执行时，提示用户输入”用户名“和”密码“信息。
 2. 输入信息之后，后台java程序模拟用户注册
 3. 注册时用户名要求长度在[6 - 14]之间，小于或者大于都表示异常
+**详细请见UserCase**
+
 
 注意：
     完成注册的方法放到一个单独的类中。
