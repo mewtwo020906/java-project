@@ -1,4 +1,4 @@
-package exception;
+package exception.UserCase;
 
 /**
  * 自定义异常

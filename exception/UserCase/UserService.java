@@ -1,4 +1,4 @@
-package exception;
+package exception.UserCase;
 
 /*
 用户业务类，处理用户相关的业务：例如登录、注册等功能。

@@ -1,4 +1,4 @@
-package exception;
+package exception.StackCase;
 
 /**
  * 栈操作异常：自定义异常！

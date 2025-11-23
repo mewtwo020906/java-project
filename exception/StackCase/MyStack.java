@@ -1,4 +1,4 @@
-package exception;/*
+package exception.StackCase;/*
     编写程序，使用一维数组，模拟数据结构
     要求：
         1. 这个栈可以存储java中的任何引用类型的数据。
@@ -7,6 +7,7 @@ package exception;/*
         4. 编写测试程序，new栈对象，调用push pop方法来模拟压栈弹栈的动作。
         5. 假设栈的默认初始化容量是10.(请注意无参数构造方法的编写方式)
  */
+
 
 public class MyStack {
     // 向栈当中存储元素，我们这里使用一维数组模拟。存在栈中，就表示存储到数组中。
@@ -59,7 +60,6 @@ public class MyStack {
 
     /**
      * 弹栈的方法，从数组中往外取元素。每取出一个元素，栈帧向下移动一位。
-     * @return
      */
     public void pop() throws MyStackOperationException {
         if (index < 0) {

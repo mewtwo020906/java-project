@@ -1,7 +1,6 @@
-package exception;
+package exception.StackCase;
 
-import exception.MyStack;
-import exception.MyStackOperationException;
+import exception.StackCase.MyStack;
 
 // 测试改良之后的MyStack
 // 该例子是异常最重要的案例，是自定义异常在实际开发中的应用。
