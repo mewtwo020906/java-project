@@ -8,7 +8,6 @@ package exception.StackCase;/*
         5. 假设栈的默认初始化容量是10.(请注意无参数构造方法的编写方式)
  */
 
-
 public class MyStack {
     // 向栈当中存储元素，我们这里使用一维数组模拟。存在栈中，就表示存储到数组中。
     // 为什么选择Object类型数组？因为这个栈可以存储java中的任何引用类型的数据
@@ -60,6 +59,7 @@ public class MyStack {
 
     /**
      * 弹栈的方法，从数组中往外取元素。每取出一个元素，栈帧向下移动一位。
+     * @return
      */
     public void pop() throws MyStackOperationException {
         if (index < 0) {
