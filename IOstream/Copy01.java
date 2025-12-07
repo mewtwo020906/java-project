@@ -16,10 +16,10 @@ public class Copy01 {
         FileOutputStream fos = null;
         try {
             // 创建一个输入流对象
-            fis = new FileInputStream("");
+            fis = new FileInputStream("D:\\pokemon\\Hoenn Region\\冠军之路与满充.png");
 
             // 创建一个输出流对象
-            fos = new FileOutputStream("");
+            fos = new FileOutputStream("D:\\冠军之路与满充.png");
 
 
             // 最核心的：一边读，一边写

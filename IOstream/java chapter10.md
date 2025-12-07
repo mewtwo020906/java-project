@@ -53,20 +53,43 @@
 - java.io.FileOutputStream
 - java.io.FileReader
 - java.io.FileWriter
+  
 2. 转换流：(将字节流转换成字符流)
 - java.io.InputStreamReader
 - java.io.OutputStreamWriter
+
 3. 缓冲流专属
 - java.io.BufferedReader
 - java.io.BufferedWriter
 - java.io.BufferedInputStream
 - java.io.BufferedOutputStream
+  
 4. 数据流专属
 - java.io.DataInputStream
 - java.io.DataOutputStream
+  
 5. 标准输出流
 - java.io.PrintWriter
 - java.io.PrintStream
+  
 6. 对象专属流
 - java.io.ObjectInputStream
 - java.io.ObjectOutputStream
+
+## FileInputStream最终版，读数据
+**详见FileInputStreamTest04，循环读文件**
+
+## FileInputStram其他常用方法
+1. int available()
+   - 返回流当中剩余的没有读到的字节数量。
+2. long skip(long n)
+   - 跳过几个字节不读。
+
+## FileOutputStream
+**详见FileOutputStreamTest01，写文件后要刷新**
+
+## 文件复制
+**详见Copy01与Copy02**
+
+## 带有缓冲区的字符流
+**详见BufferedReaderTest与BufferedWriterTest**
