@@ -39,3 +39,5 @@ java.lang.Class:
 ## 获取class的三种方式
 **详见ReflectTest01**
 
+## 通过反射实例化对象
+**详见ReflectTest02以及User**
