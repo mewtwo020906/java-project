@@ -41,3 +41,6 @@ java.lang.Class:
 
 ## 通过反射实例化对象
 **详见ReflectTest02以及User**
+
+## 验证反射机制的灵活性
+**详见ReflectTest03以及classinfo.properties**
