@@ -44,3 +44,6 @@ java.lang.Class:
 
 ## 验证反射机制的灵活性
 **详见ReflectTest03以及classinfo.properties**
+
+## Class.forName()发生了什么
+**详见ReflectTest04**
