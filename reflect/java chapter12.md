@@ -1,3 +1,16 @@
+- [反射机制](#反射机制)
+  - [反射机制有什么用？](#反射机制有什么用)
+  - [反射机制的相关类在哪个包下？](#反射机制的相关类在哪个包下)
+  - [反射机制相关的重要的类有哪些？](#反射机制相关的重要的类有哪些)
+  - [获取class的三种方式](#获取class的三种方式)
+  - [通过反射实例化对象](#通过反射实例化对象)
+  - [验证反射机制的灵活性](#验证反射机制的灵活性)
+  - [Class.forName()发生了什么](#classforname发生了什么)
+  - [类加载器](#类加载器)
+    - [什么是类加载器？](#什么是类加载器)
+    - [JDK中自带了3个类加载器](#jdk中自带了3个类加载器)
+    - [探究String s = "abc";执行过程](#探究string-s--abc执行过程)
+
 # 反射机制
 ## 反射机制有什么用？
 - 通过java语言中的反射机制可以操作字节码文件。
@@ -37,15 +50,29 @@ java.lang.Class:
 </pre>
 
 ## 获取class的三种方式
+1. Class c = Class.forName("完整类名");
+2. Class c = 对象.getClass();
+3. Class c = int.class; Class c = String.class;
+
 **详见ReflectTest01**
 
 ## 通过反射实例化对象
+- 获取了Class之后，可以调用无参数构造方法来实例化对象
+- Class c = Class.forName("java.util.Date");
+- Object obj = c.newInstance();
+- newInstance()底层调用的是该类型的无参数构造方法
+- 如果没有这个无参数构造方法会出现异常。
+
 **详见ReflectTest02以及User**
 
 ## 验证反射机制的灵活性
 **详见ReflectTest03以及classinfo.properties**
 
 ## Class.forName()发生了什么
+- 如果只想让一个类的“静态代码块”执行的话
+- Class.forName("该类的类名");
+- 这样类就加载，类加载的时候，静态代码块执行！
+
 **详见ReflectTest04**
 
 ## 类加载器
