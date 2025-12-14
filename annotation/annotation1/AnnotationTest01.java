@@ -1,4 +1,4 @@
-package annotation;
+package annotation.annotation1;
 
 // 默认情况下，注解可以出现在任意位置
 @MyAnnotation

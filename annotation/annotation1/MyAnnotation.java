@@ -1,4 +1,4 @@
-package annotation;
+package annotation.annotation1;
 /*
 自定义注解：MyAnnotation
  */
